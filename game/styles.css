@@ -1,0 +1,152 @@
+/* Ember Court — table, cards and overlays. All art is CSS: no images, no fonts, no network. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: #17101f;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #f3e9d2;
+  overflow: hidden;
+}
+#table {
+  width: 1280px; height: 720px; margin: 0 auto; position: relative;
+  background:
+    radial-gradient(ellipse at 50% 38%, #3d2b52 0%, #2a1b38 55%, #1c1026 100%);
+  border: 6px solid #6b4a2f;
+  border-radius: 18px;
+  box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.55);
+  display: flex; flex-direction: column; padding: 10px 22px 14px;
+}
+#topbar { display: flex; align-items: center; justify-content: space-between; height: 44px; }
+#game-title {
+  font-size: 30px; letter-spacing: 6px; font-weight: bold; color: #ffc95e;
+  text-shadow: 0 2px 0 #7a3b00, 0 0 22px rgba(255, 180, 60, 0.45);
+}
+#round-badge {
+  font-size: 17px; letter-spacing: 3px; color: #e8d9b0;
+  border: 2px solid #8a6d3b; border-radius: 20px; padding: 4px 16px;
+  background: rgba(0, 0, 0, 0.35);
+}
+#mute-btn {
+  font-family: inherit; font-size: 13px; letter-spacing: 2px; cursor: pointer;
+  background: #2c2140; color: #e8d9b0; border: 2px solid #8a6d3b; border-radius: 8px;
+  padding: 7px 12px;
+}
+#mute-btn:hover { background: #3d2f57; }
+
+.side { flex: 0 0 auto; }
+.duelist { display: flex; align-items: center; gap: 14px; height: 64px; }
+.portrait {
+  width: 52px; height: 52px; border-radius: 50%; flex: 0 0 52px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px; font-weight: bold; color: #fff;
+  border: 3px solid rgba(255, 255, 255, 0.55);
+}
+.rival-portrait { background: radial-gradient(circle at 35% 30%, #7fc96b, #2e6b34); }
+.player-portrait { background: radial-gradient(circle at 35% 30%, #ff9a4d, #b33a12); }
+.duelist-name { font-size: 19px; letter-spacing: 2px; font-weight: bold; }
+.duelist-sub { font-size: 13px; color: #c9b48a; font-style: italic; margin-top: 2px; }
+.life-wrap { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.life-label { font-size: 13px; letter-spacing: 3px; color: #c9b48a; }
+.life-num { font-size: 40px; font-weight: bold; line-height: 1; min-width: 52px; text-align: center; color: #fff; text-shadow: 0 0 14px rgba(255, 120, 120, 0.6); }
+.life-bar { width: 170px; height: 16px; background: #120a1c; border: 2px solid #6b5a3a; border-radius: 9px; overflow: hidden; }
+.life-fill { height: 100%; transition: width 0.45s ease; }
+.player-fill { background: linear-gradient(90deg, #ff5a3c, #ffc95e); }
+.rival-fill { background: linear-gradient(90deg, #57c84d, #a5e08a); }
+.deck-count { font-size: 13px; color: #c9b48a; white-space: nowrap; }
+.deck-count span { color: #ffc95e; font-weight: bold; }
+
+.hand { display: flex; justify-content: center; gap: 10px; min-height: 132px; padding: 6px 0; }
+.rival-hand .card { transform: rotate(-2deg); }
+.rival-hand .card:nth-child(2n) { transform: rotate(2deg) translateY(3px); }
+
+#arena { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; gap: 34px; min-height: 190px; }
+.played-slot { width: 128px; height: 172px; display: flex; align-items: center; justify-content: center; }
+.played-slot .card { box-shadow: 0 0 0 3px #ffc95e, 0 10px 24px rgba(0, 0, 0, 0.6); }
+.slot-empty {
+  width: 118px; height: 162px; border: 3px dashed rgba(243, 233, 210, 0.35);
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; letter-spacing: 2px; color: rgba(243, 233, 210, 0.5); text-align: center;
+}
+#arena-middle { text-align: center; width: 340px; }
+#versus { font-size: 44px; font-weight: bold; color: #ffc95e; letter-spacing: 8px; text-shadow: 0 0 18px rgba(255, 180, 60, 0.5); }
+#round-result { min-height: 44px; font-size: 17px; color: #f3e9d2; margin: 6px 0 10px; line-height: 1.35; }
+#round-result b { color: #ffc95e; }
+#play-btn {
+  font-family: inherit; font-size: 19px; letter-spacing: 3px; font-weight: bold;
+  padding: 11px 30px; border-radius: 10px; cursor: pointer;
+  background: linear-gradient(180deg, #ff8a3c, #d94f04); color: #fff;
+  border: 2px solid #ffd28a; box-shadow: 0 4px 0 #7a2d00, 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+#play-btn:disabled { background: #4a3a55; color: #9a8aa8; border-color: #6b5a7a; box-shadow: none; cursor: default; }
+#play-btn:not(:disabled):hover { filter: brightness(1.12); }
+#play-btn:not(:disabled):active { transform: translateY(3px); box-shadow: 0 1px 0 #7a2d00; }
+
+/* ---- cards ---- */
+.card {
+  width: 112px; height: 156px; border-radius: 12px; position: relative;
+  background: linear-gradient(160deg, #fffdf5 0%, #f3e6c8 100%);
+  border: 3px solid #2b1d12; color: #241708;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.55);
+  user-select: none; flex: 0 0 auto;
+  animation: deal-in 0.35s ease both;
+}
+@keyframes deal-in { from { transform: translateY(-26px) rotate(-4deg); opacity: 0; } to { transform: translateY(0) rotate(0deg); opacity: 1; } }
+.card .rank { position: absolute; top: 6px; left: 9px; font-size: 34px; font-weight: bold; line-height: 1; }
+.card .rank-small { position: absolute; bottom: 6px; right: 9px; font-size: 20px; font-weight: bold; transform: rotate(180deg); }
+.card .suit-glyph { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 58px; line-height: 1; }
+.card .suit-name { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font-size: 12px; letter-spacing: 2px; font-weight: bold; }
+.card .cost { position: absolute; top: 6px; right: 9px; font-size: 13px; font-weight: bold; border: 2px solid currentColor; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; }
+.card.suit-ember { color: #c22e12; }
+.card.suit-tide { color: #0d5aa8; }
+.card.suit-thorn { color: #1e7a34; }
+.card.suit-star { color: #a06a00; }
+.card .suit-glyph { text-shadow: 0 2px 0 rgba(0, 0, 0, 0.12); }
+.player-hand .card { cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.player-hand .card:hover { transform: translateY(-12px); }
+.player-hand .card.selected {
+  transform: translateY(-16px);
+  box-shadow: 0 0 0 4px #ffc95e, 0 14px 26px rgba(0, 0, 0, 0.65);
+}
+.card.back {
+  background: repeating-linear-gradient(45deg, #4a2a6b 0 12px, #33204a 12px 24px);
+  border-color: #ffc95e; color: #ffc95e;
+  display: flex; align-items: center; justify-content: center;
+}
+.card.back .back-mark { font-size: 54px; text-shadow: 0 0 16px rgba(255, 201, 94, 0.7); }
+.card.winner-glow { box-shadow: 0 0 0 4px #7dff8a, 0 0 26px rgba(125, 255, 138, 0.8), 0 10px 24px rgba(0, 0, 0, 0.6); }
+.card.loser-dim { filter: grayscale(0.7) brightness(0.72); }
+.card.flip-in { animation: flip-in 0.4s ease both; }
+@keyframes flip-in { from { transform: rotateY(90deg) scale(0.9); opacity: 0.4; } to { transform: rotateY(0deg) scale(1); opacity: 1; } }
+
+/* ---- overlay (title / win / loss) ---- */
+#overlay {
+  position: absolute; inset: 0; z-index: 10;
+  background: rgba(12, 6, 20, 0.82);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(2px);
+}
+#overlay.hidden { display: none; }
+#overlay-card {
+  width: 720px; max-width: 92%; text-align: center; padding: 34px 40px 28px;
+  background: linear-gradient(170deg, #2e2140, #1a1026);
+  border: 3px solid #ffc95e; border-radius: 18px;
+  box-shadow: 0 0 60px rgba(255, 180, 60, 0.25), 0 18px 50px rgba(0, 0, 0, 0.7);
+}
+#overlay-card.lost { border-color: #7a8aa8; box-shadow: 0 0 60px rgba(90, 120, 180, 0.25), 0 18px 50px rgba(0, 0, 0, 0.7); }
+#overlay-kicker { font-size: 15px; letter-spacing: 5px; color: #c9b48a; }
+#overlay-title { font-size: 64px; letter-spacing: 6px; color: #ffc95e; margin: 8px 0 4px; text-shadow: 0 3px 0 #7a3b00, 0 0 30px rgba(255, 180, 60, 0.5); }
+#overlay-card.lost #overlay-title { color: #9db4d8; text-shadow: 0 3px 0 #1c2c4a, 0 0 30px rgba(120, 150, 220, 0.5); }
+#overlay-text { font-size: 18px; line-height: 1.55; color: #f3e9d2; margin: 8px 0 14px; }
+#overlay-text .suit-key { font-weight: bold; }
+#overlay-stats { font-size: 16px; color: #e8d9b0; margin-bottom: 18px; line-height: 1.7; }
+#overlay-stats b { color: #ffc95e; }
+#overlay-btn {
+  font-family: inherit; font-size: 21px; letter-spacing: 3px; font-weight: bold;
+  padding: 12px 36px; border-radius: 10px; cursor: pointer;
+  background: linear-gradient(180deg, #ff8a3c, #d94f04); color: #fff; border: 2px solid #ffd28a;
+  box-shadow: 0 4px 0 #7a2d00;
+}
+#overlay-btn:hover { filter: brightness(1.12); }
+#overlay-hint { margin-top: 14px; font-size: 13px; color: #c9b48a; font-style: italic; }
+.life-flash { animation: life-flash 0.5s ease; }
+@keyframes life-flash { 0% { transform: scale(1); } 40% { transform: scale(1.35); color: #ff5a3c; } 100% { transform: scale(1); } }

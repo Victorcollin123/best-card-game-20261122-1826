@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ember Court — a duel of suits</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="table">
+  <header id="topbar">
+    <div id="game-title">EMBER COURT</div>
+    <div id="round-badge">ROUND <span id="round-num">1</span></div>
+    <button id="mute-btn" type="button" title="Mute (M)">SOUND ON</button>
+  </header>
+
+  <section id="rival-side" class="side">
+    <div class="duelist">
+      <div class="portrait rival-portrait">S</div>
+      <div class="duelist-info">
+        <div class="duelist-name">SABLE · THE THORN QUEEN</div>
+        <div class="duelist-sub">Rival duelist · plays to win</div>
+      </div>
+      <div class="life-wrap">
+        <div class="life-label">LIFE</div>
+        <div class="life-num" id="rival-life">20</div>
+        <div class="life-bar"><div class="life-fill rival-fill" id="rival-life-fill"></div></div>
+      </div>
+      <div class="deck-count"><span id="rival-hand-count">5</span> cards in hand · deck <span id="deck-count">22</span></div>
+    </div>
+    <div id="rival-hand" class="hand rival-hand" aria-label="Opponent hand"></div>
+  </section>
+
+  <section id="arena">
+    <div id="played-rival" class="played-slot"></div>
+    <div id="arena-middle">
+      <div id="versus">VS</div>
+      <div id="round-result">Choose a card to duel.</div>
+      <button id="play-btn" type="button" disabled>PLAY CARD</button>
+    </div>
+    <div id="played-player" class="played-slot"></div>
+  </section>
+
+  <section id="player-side" class="side">
+    <div class="duelist">
+      <div class="portrait player-portrait">Y</div>
+      <div class="duelist-info">
+        <div class="duelist-name">YOU · THE EMBER CHALLENGER</div>
+        <div class="duelist-sub">Click a card, then PLAY — or press 1–5 + Enter</div>
+      </div>
+      <div class="life-wrap">
+        <div class="life-label">LIFE</div>
+        <div class="life-num" id="player-life">20</div>
+        <div class="life-bar"><div class="life-fill player-fill" id="player-life-fill"></div></div>
+      </div>
+      <div class="deck-count">Damage dealt <span id="damage-dealt">0</span> · Damage taken <span id="damage-taken">0</span></div>
+    </div>
+    <div id="player-hand" class="hand player-hand" aria-label="Your hand"></div>
+  </section>
+
+  <div id="overlay" class="hidden">
+    <div id="overlay-card">
+      <div id="overlay-kicker"></div>
+      <h1 id="overlay-title"></h1>
+      <p id="overlay-text"></p>
+      <div id="overlay-stats"></div>
+      <button id="overlay-btn" type="button"></button>
+      <div id="overlay-hint"></div>
+    </div>
+  </div>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
